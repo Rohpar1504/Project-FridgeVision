@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <title>Home Page - Fridge Vision</title>
+    </head>
+    <body>
+        <h1>Hello, {{username}}!</h1>
+    </body>
+</html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fridge Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200vh;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #6ab04c;
+            color: white;
+            padding: 15px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .upload-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 20px 10px;
+        }
+
+        input[type="text"] {
+            margin: 30px 0;
+        }
+
+
+        #uploadedimage {
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        #outputMessage {
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333;               /* Text color */
+            padding: 10px;             /* Padding inside the div */
+            border: 1px solid #ccc;    /* Light border */
+            border-radius: 5px;        /* Rounded corners */
+            font-size: 16px;           /* Font size */
+            text-align: center;        /* Center-align text */
+            margin-top: 15px;          /* Margin on top */
+        }
+
+        button {
+            background-color: #6ab04c;
+            color: white;
+            border: none;
+            padding: 30px 60px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4caf50;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Upload Your Fridge Picture</h1>
+</header>
+
+<nav>
+    <a href="./fridge_contents.html">Fridge Contents</a>
+</nav>
+
+<div class="upload-container">
+    <form id="uploadForm" enctype="multipart/form-data">
+    <label for="fridgePic">Choose a picture of your fridge:</label><br>
+        <input type="file" id="fridgePic" name="fridgePic" accept="image/*"><br>
+        <label for="stringInput">Food Item:</label>
+        <input type="text" id="stringInput" name="stringInput" placeholder="Enter your text here">
+        <button type="button" onclick="uploadFridgePicture()">Upload</button>
+    </form>
+    <form action="/submit" method="post">
+    </form>
+    <img id="uploadedImage" alt="Your uploaded fridge will appear here.">
+    <div id="outputMessage"></div>
+</div>
+
+<footer>
+    <p>2024 &copy; Fridge Upload</p>
+</footer>
+
+<script>
+async function uploadFridgePicture() {
+    const fileInput = document.getElementById('fridgePic');
+    const uploadedImage = document.getElementById('uploadedImage');
+    const outputMessage = document.getElementById('outputMessage');
+    const foodItem = document.getElementById("stringInput").value;
+
+    // Display the uploaded image from the local file input
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        uploadedImage.src = e.target.result;
+        uploadedImage.style.display = 'block';
+    };
+    reader.readAsDataURL(fileInput.files[0]); // Read the local file as a DataURL
+
+    if (fileInput.files && fileInput.files[0]) {
+        const formData = new FormData();
+        formData.append('fridgePic', fileInput.files[0]);
+        formData.append('stringInput', foodItem);
+
+        try {
+            // Send the POST request to the server
+            const response = await fetch('http://127.0.0.1:5000/upload', {
+                method: 'POST',
+                body: formData
+            });
+    
+            // Check if the response is successful
+            if (response.ok) {
+                const responseData = await response.json();
+
+                // Display the message from the server
+                outputMessage.textContent = responseData.message;
+                outputMessage.style.color = "black";
+
+                speakMessage(responseData.message);
+            } else {
+                outputMessage.textContent = "Failed to upload the image.";
+                outputMessage.style.color = "red";
+            }
+        } catch (error) {
+            console.error('Error uploading the file:', error);
+            outputMessage.textContent = "An error occurred while uploading.";
+            outputMessage.style.color = "red";
+        }
+    } else {
+        outputMessage.textContent = "Please select a file to upload.";
+        outputMessage.style.color = "red";
+    }
+}    
+
+function speakMessage(message) {
+    const speech = new SpeechSynthesisUtterance(message);
+    speech.lang = 'en-US'; // Set language, adjust as needed
+    speech.pitch = 1; // Adjust pitch (0 to 2, default is 1)
+    speech.rate = 1; // Adjust speed (0.1 to 10, default is 1)
+    window.speechSynthesis.speak(speech);
+}
+
+</script>
+</body>
+</html>
