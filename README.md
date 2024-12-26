@@ -3,7 +3,6 @@ Developed a website where blind people could submit pictures of their fridges an
 
 
 # Technical Architecture
-
 Frontend:
 
 index.html (javascript included)
@@ -24,7 +23,6 @@ Item Detection (uses OpenCV and YOLO)
 
 
 # Installation
-
 Open a VSCode window, ensure python3 is downloaded so that you can run python in VSCode
 Choose "Clone Git Repository", then insert the GitHub url for the git repository
 
