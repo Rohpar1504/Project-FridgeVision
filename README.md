@@ -1,9 +1,8 @@
-**Project Fridge Vision** 
-
+# Project Fridge Vision 
 Developed a website where blind people could submit pictures of their fridges and ask where items in the fridge are located. An AI would both understand what they said and locate the item. The website also tracks the items in the fridge/pantry, maintains a shopping list, and maintains/generates recipes using the items in the fridge/pantry. Used Python to implement the user-functionality. Used HTML to implement the web design aspect and Javascript to handle the frontend to backend connection. 
 
 
-**Technical Architecture**
+# Technical Architecture
 
 Frontend:
 
@@ -24,7 +23,7 @@ Shelf Detection (uses OpenCV)
 Item Detection (uses OpenCV and YOLO)
 
 
-**Installation**
+# Installation
 
 Open a VSCode window, ensure python3 is downloaded so that you can run python in VSCode
 Choose "Clone Git Repository", then insert the GitHub url for the git repository
