@@ -1,4 +1,4 @@
-# Project Fridge Vision 
+# Project FridgeVision 
 Developed a website where blind people could submit pictures of their fridges and ask where items in the fridge are located. An AI would both understand what they said and locate the item. The website also tracks the items in the fridge/pantry, maintains a shopping list, and maintains/generates recipes using the items in the fridge/pantry. Used Python to implement the user-functionality. Used HTML to implement the web design aspect and Javascript to handle the frontend to backend connection. 
 
 
